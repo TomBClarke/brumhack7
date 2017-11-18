@@ -10,16 +10,17 @@ import edu.stanford.nlp.trees.TreeCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 
 import java.util.List;
-import java.util.Properties;
 
 public class FactParser{
     private String toParse;
     private Tree tree;
     private CoreMap sentence;
     private SemanticGraph dependencies;
+    private StanfordCoreNLP pipeline;
 
-    public FactParser(String str){
+    public FactParser(String str, StanfordCoreNLP pipeline){
         toParse = str;
+        this.pipeline = pipeline;
     }
 
     public void setToParse(String toParse) {
@@ -32,11 +33,6 @@ public class FactParser{
     }
 
     public void parse(String str){
-        // creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution
-        Properties props = new Properties();
-        props.put("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
-        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
-
         String toParse = str;
 
         // create an empty Annotation just with the given text
