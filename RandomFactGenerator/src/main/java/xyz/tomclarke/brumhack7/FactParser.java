@@ -81,12 +81,15 @@ public class FactParser{
         return sentence.get(TreeCoreAnnotations.TreeAnnotation.class);
     }
 
-
     public CoreMap getSentence(){
         return this.sentence;
     }
 
     public SemanticGraph getDependencies(){
         return this.dependencies;
+    }
+
+    public SemanticGraph getDependencies(CoreMap sentence){
+        return sentence.get(SemanticGraphCoreAnnotations.CollapsedCCProcessedDependenciesAnnotation.class);
     }
 }
