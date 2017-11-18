@@ -3,7 +3,6 @@ package xyz.tomclarke.brumhack7;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 import java.util.Properties;
-import java.util.Scanner;
 
 /**
  * Hello world!
@@ -29,20 +28,7 @@ public class App
         System.out.println("Fact: "+ singleFact);
         System.out.println("Parse Tree\n" + factParser.getTree());
 
-        // Timed test with a predetermined string
-        System.out.println("Please enter a new fact: ");
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
+        System.out.println(factParser.getTree());
 
-        long startTime = System.currentTimeMillis();
-        //String s = "at the L Street Bridge does not carry or cross over L Street";
-        factParser.parse(input);
-        System.out.println("Parse Tree\n" + factParser.getTree());
-
-        long endTime   = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
-        System.out.println("That took " + totalTime + " milliseconds to parse");
-
-        scanner.close();
     }
 }
