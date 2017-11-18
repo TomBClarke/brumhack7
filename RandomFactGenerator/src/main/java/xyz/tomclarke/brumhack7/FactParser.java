@@ -2,8 +2,7 @@ package xyz.tomclarke.brumhack7;
 
 import edu.stanford.nlp.dcoref.CorefChain;
 import edu.stanford.nlp.dcoref.CorefCoreAnnotations;
-import edu.stanford.nlp.ling.CoreAnnotations.*;
-import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.semgraph.SemanticGraph;
@@ -60,25 +59,25 @@ public class FactParser{
         for(CoreMap sentence: sentences) {
             // traversing the words in the current sentence
             // a CoreLabel is a CoreMap with additional token-specific methods
-            for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
-                // this is the text of the token
-                String word = token.get(TextAnnotation.class);
-                // this is the POS tag of the token
-                String pos = token.get(PartOfSpeechAnnotation.class);
-                // this is the NER label of the token
-                String ne = token.get(NamedEntityTagAnnotation.class);
-
-                System.out.println("word: " + word + " pos: " + pos + " ne:" + ne);
-
-            }
+//            for (CoreLabel token: sentence.get(TokensAnnotation.class)) {
+//                // this is the text of the token
+//                String word = token.get(TextAnnotation.class);
+//                // this is the POS tag of the token
+//                String pos = token.get(PartOfSpeechAnnotation.class);
+//                // this is the NER label of the token
+//                String ne = token.get(NamedEntityTagAnnotation.class);
+//
+//                System.out.println("word: " + word + " pos: " + pos + " ne:" + ne);
+//
+//            }
 
         // this is the parse tree of the current sentence
         this.tree = sentence.get(TreeCoreAnnotations.TreeAnnotation.class);
-        System.out.println("parse tree:\n" + this.tree);
+//        System.out.println("parse tree:\n" + this.tree);
 
         // this is the Stanford dependency graph of the current sentence
         this.dependencies = sentence.get(SemanticGraphCoreAnnotations.CollapsedCCProcessedDependenciesAnnotation.class);
-        System.out.println("dependency graph:\n" + this.dependencies);
+//        System.out.println("dependency graph:\n" + this.dependencies);
     }
 
 //        }
