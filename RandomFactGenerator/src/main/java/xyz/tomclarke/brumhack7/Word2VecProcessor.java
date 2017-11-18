@@ -1,15 +1,11 @@
 package xyz.tomclarke.brumhack7;
 
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.word2vec.Word2Vec;
-import org.deeplearning4j.text.sentenceiterator.BasicLineIterator;
-import org.deeplearning4j.text.sentenceiterator.SentenceIterator;
-import org.deeplearning4j.text.sentenceiterator.SentencePreProcessor;
-import org.deeplearning4j.text.tokenization.tokenizer.preprocessor.CommonPreprocessor;
-import org.deeplearning4j.text.tokenization.tokenizerfactory.DefaultTokenizerFactory;
-import org.deeplearning4j.text.tokenization.tokenizerfactory.TokenizerFactory;
-import org.deeplearning4j.ui.standalone.ClassPathResource;
 
 /**
  * Uses word2vec
@@ -19,45 +15,25 @@ import org.deeplearning4j.ui.standalone.ClassPathResource;
  */
 public class Word2VecProcessor {
 
-    public static void main(String[] args) throws Exception {
-        Word2Vec vec = process();
-        System.out.println("output:");
-        System.out.println(vec.wordsNearest("United States", 10));
+    /**
+     * Loads the Word2Vec object
+     * 
+     * @return Word2Vec loaded object
+     */
+    public static Word2Vec getWord2Vec() {
+        return WordVectorSerializer.readWord2VecModel(new File("~/Downloads/W2V_GoogleNews.bin.gz"));
     }
 
     /**
-     * Processes papers with word2vec
+     * Gets words similar to the words given
      * 
-     * @param papers
-     *            The papers to process
-     * @return The trained Word2Vec instance
-     * @throws FileNotFoundException
+     * @param words
+     *            Words to process
+     * @param vec
+     *            The Word2Vec object
+     * @return similar words (max 20)
      */
-    public static Word2Vec process() throws Exception {
-        // System.setProperty("java.library.path", "");
-
-        // Setup the iterator holding the data
-        SentenceIterator iter = new BasicLineIterator(
-                new ClassPathResource("facts.txt").getFile().getAbsolutePath());
-        iter.setPreProcessor(new SentencePreProcessor() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public String preProcess(String sentence) {
-                return sentence.toLowerCase();
-            }
-        });
-
-        // Setup the tokenizer
-        TokenizerFactory t = new DefaultTokenizerFactory();
-        t.setTokenPreProcessor(new CommonPreprocessor());
-
-        // Setup the word2vec instance
-        Word2Vec vec = new Word2Vec.Builder().minWordFrequency(5).iterations(100).layerSize(100).seed(42).windowSize(5)
-                .iterate(iter).tokenizerFactory(t).build();
-
-        vec.fit();
-
-        return vec;
+    public static List<String> process(List<String> words, Word2Vec vec) throws Exception {
+        return new ArrayList<String>(vec.wordsNearest(words, new ArrayList<String>(), 20));
     }
 }
