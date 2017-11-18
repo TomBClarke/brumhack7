@@ -1,7 +1,5 @@
 package xyz.tomclarke.brumhack7;
 
-import edu.stanford.nlp.dcoref.CorefChain;
-import edu.stanford.nlp.dcoref.CorefCoreAnnotations;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
@@ -12,13 +10,11 @@ import edu.stanford.nlp.trees.TreeCoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 public class FactParser{
     private String toParse;
     private Tree tree;
-    private Map<Integer, CorefChain> corefGraph;
     private CoreMap sentence;
     private SemanticGraph dependencies;
 
@@ -79,24 +75,16 @@ public class FactParser{
         this.dependencies = sentence.get(SemanticGraphCoreAnnotations.CollapsedCCProcessedDependenciesAnnotation.class);
 //        System.out.println("dependency graph:\n" + this.dependencies);
     }
-
-//        }
-//
-//        // This is the coreference link graph
-//        // Each chain stores a set of mentions that link to each other,
-//        // along with a method for getting the most representative mention
-//        // Both sentence and token offsets start at 1!
-        this.corefGraph = document.get(CorefCoreAnnotations.CorefChainAnnotation.class);
-
     }
 
     public Tree getTree(){
         return this.tree;
     }
 
-    public Map<Integer, CorefChain> getCorefGraph(){
-        return this.corefGraph;
+    public Tree getTree(CoreMap sentence){
+        return sentence.get(TreeCoreAnnotations.TreeAnnotation.class);
     }
+
 
     public CoreMap getSentence(){
         return this.sentence;
