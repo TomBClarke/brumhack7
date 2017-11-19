@@ -1,7 +1,11 @@
 package xyz.tomclarke.brumhack7.play;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -30,16 +34,36 @@ public class GenerateFacts {
     public static void main(String[] args) throws Exception {
         Facts facts = BuildFactData.buildFactData(false);
 
-        GenerateFacts gen = new GenerateFacts();
-        for (int i = 1; i < 10; i++) {
-            try {
-                gen.processFact(facts.get(i));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        // Write generated facts out to file
+        BufferedWriter bw = null;
+        try {
+            File fout = new File("alternate_facts.txt");
+            FileOutputStream fos = new FileOutputStream(fout);
 
-        facts.save();
+            bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+            for (int i = 0; i < 10; i++) {
+            }
+
+            GenerateFacts gen = new GenerateFacts();
+            for (Fact fact : facts) {
+                try {
+                    gen.processFact(fact);
+
+                    // Only write fact if it exists...
+                    if (fact.getAlternative() != null) {
+                        bw.write(fact.getAlternative());
+                        bw.newLine();
+                    }
+                    facts.save();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } finally {
+            bw.close();
+        }
     }
 
     private StanfordCoreNLP pipeline;
@@ -65,7 +89,7 @@ public class GenerateFacts {
      * @throws Exception
      */
     public void processFact(Fact fact) throws Exception {
-        System.out.println("Processing: " + fact);
+        System.out.println("Next: " + fact.getOriginal());
         // Ensure parsed
         if (fact.getAnnotations() == null) {
             System.out.println("Annotating...");
@@ -90,7 +114,14 @@ public class GenerateFacts {
         // Find end word
         String noun = getDeepestNoun(nps.get(0), 0).getKey();
         boolean swapped = false;
+        // Ensure we don't get stuck on one forever
+        int attempts = 0;
         while (!swapped) {
+            attempts++;
+            if (attempts > 10) {
+                System.out.println("Giving up...");
+                return;
+            }
             // Add extra salt
             List<String> query = new ArrayList<String>();
             query.add(noun);
@@ -140,9 +171,10 @@ public class GenerateFacts {
             fact.setAlternative(fact.getOriginal().replaceAll(treeToString(nps.get(0)), chosenOption));
             swapped = true;
         }
+
         // When done
         if (fact.getAlternative() != null) {
-            System.out.println("Created: " + fact);
+            System.out.println("Made: " + fact.getAlternative());
         }
     }
 
