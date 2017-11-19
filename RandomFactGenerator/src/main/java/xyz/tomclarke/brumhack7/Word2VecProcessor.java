@@ -21,7 +21,7 @@ public class Word2VecProcessor {
      * @return Word2Vec loaded object
      */
     public static Word2Vec getWord2Vec() {
-        return WordVectorSerializer.readWord2VecModel(new File("~/Downloads/W2V_GoogleNews.bin.gz"));
+        return WordVectorSerializer.readWord2VecModel(new File("/home/tom/Downloads/W2V_GoogleNews.bin.gz"));
     }
 
     /**

@@ -20,6 +20,8 @@ public class Fact implements Serializable {
 
     public Fact(String original) {
         this.original = original;
+        this.annotations = null;
+        this.alternative = null;
     }
 
     public String getAlternative() {
