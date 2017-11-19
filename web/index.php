@@ -11,21 +11,21 @@
 
     for ($i=0; $i < count($lines); $i = $i + 3) {
       // get facts 3 at a time
-      echo "
+      echo '
       <div class="container">
         <div class="facts">
           <h3 class="fact1">
-            Did you know $lines[$i]?
+            Did you know ' + $lines[$i] + '?
           </h3>
           <h3 class="fact2">
-          Did you know $lines[$i+1]?
+          Did you know ' + $lines[$i+1] + '?
           </h3>
           <h3 class="fact3">
-          Did you know $lines[$i+2]?
+          Did you know ' + $lines[$i+2] + '?
           </h3>
         </div>
       </div>
-      ";
+      ';
     }
     ?>
   </body>
