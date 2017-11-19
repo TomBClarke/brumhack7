@@ -1,11 +1,12 @@
-package xyz.tomclarke.brumhack7;
+package xyz.tomclarke.brumhack7.play;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import org.deeplearning4j.models.word2vec.Word2Vec;
-import org.junit.Test;
+
+import xyz.tomclarke.brumhack7.Word2VecProcessor;
 
 /**
  * A test class to let you mess around with Google News and Word2Vec
@@ -15,8 +16,7 @@ import org.junit.Test;
  */
 public class TestWord2Vec {
 
-    @Test
-    public void tryOutWord2Vec() throws Exception {
+    public static void main(String[] args) throws Exception {
         System.out.println("Loading Word2Vec...");
         Word2Vec vec = Word2VecProcessor.getWord2Vec();
         System.out.println("Loaded");
@@ -24,6 +24,8 @@ public class TestWord2Vec {
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
         List<String> words = new ArrayList<String>();
+        System.out.println("Type words (one at a time) to add together in Word2Vec. "
+                + "Use 'runnow' to evaluate inputs and 'stopitnow' to cleanly exit.");
         while (!exit) {
             System.out.println("Waiting for input");
             String input = scanner.nextLine();

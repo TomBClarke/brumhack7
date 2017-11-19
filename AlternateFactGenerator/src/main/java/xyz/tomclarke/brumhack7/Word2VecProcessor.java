@@ -10,7 +10,7 @@ import org.deeplearning4j.models.word2vec.Word2Vec;
 /**
  * Uses word2vec
  * 
- * @author tbc452
+ * @author Tom Clarke
  *
  */
 public class Word2VecProcessor {
@@ -21,7 +21,7 @@ public class Word2VecProcessor {
      * @return Word2Vec loaded object
      */
     public static Word2Vec getWord2Vec() {
-        return WordVectorSerializer.readWord2VecModel(new File("/home/tom/Downloads/W2V_GoogleNews.bin.gz"));
+        return WordVectorSerializer.readWord2VecModel(new File("GoogleNews-vectors-negative300.bin.gz"));
     }
 
     /**

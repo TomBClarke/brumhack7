@@ -52,8 +52,11 @@ public class GenerateFacts {
 
                     // Only write fact if it exists...
                     if (fact.getAlternative() != null) {
-                        bw.write(fact.getAlternative());
+                        bw.write("OG " + fact.getOriginal().trim());
                         bw.newLine();
+                        bw.write("AL " + fact.getAlternative().trim());
+                        bw.newLine();
+                        bw.flush();
                     }
                     facts.save();
                 } catch (Exception e) {
@@ -166,7 +169,7 @@ public class GenerateFacts {
             }
 
             // Choose and swap out
-            String chosenOption = goodOptions.get((int) Math.round(goodOptions.size() * Math.random()));
+            String chosenOption = goodOptions.get((int) Math.floor(goodOptions.size() * Math.random()));
 
             fact.setAlternative(fact.getOriginal().replaceAll(treeToString(nps.get(0)), chosenOption));
             swapped = true;
